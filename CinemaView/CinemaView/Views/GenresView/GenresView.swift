@@ -12,9 +12,6 @@ struct GenresView: View {
     
     var body: some View {
         VStack{
-            Text("hello world!")
-                .fontWeight(.bold)
-            
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
                     if self.viewModel.arrayGenres != nil {
@@ -40,11 +37,32 @@ struct GenreCell: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text(genresModel.name ?? "").font(.callout).lineLimit(1).foregroundColor(.white)
+        ZStack() {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(LinearGradient(gradient: Gradient(colors: [Color.gray, Color.black]),
+                                     startPoint: .bottom,
+                                     endPoint: .top))
+                .frame(maxWidth: .infinity, minHeight: 100)
+            
+            VStack() {
+                Text(genresModel.name ?? "")
+                    .font(.title3)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
+                
+                Group {
+                    EmojiView()
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        
+            }
+            .padding(15)
+            
         }
-        .background(Color.black)
-        .padding(.horizontal, 5)
+        .padding(6)
     }
 }
 
@@ -54,5 +72,16 @@ struct Genres_Previews: PreviewProvider {
             .environment(\.colorScheme, .dark)
     }
 }
+
+//extension String {
+//    static var randomEmoji: String {
+//        let range = [UInt32](0x1F600...0x1F64F)
+//        let ascii = range[Int(drand48() * (Double(range.count)))]
+//        let emoji = UnicodeScalar(ascii)?.description
+//        return emoji!
+//    }
+//}
+
+
 
 
