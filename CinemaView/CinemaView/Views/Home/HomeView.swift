@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    init() {
+        UITabBar.appearance().barTintColor = UIColor.black
+    }
+    
     var body: some View {
         TabView {
             GenresCoordinator.navigation()
@@ -18,12 +23,16 @@ struct HomeView: View {
                     }
                 }
         }
+        .accentColor(Color.hex(Constants.Colors.accentColor))
     }
 }
 
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}
+
+
+
+//struct Home_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}
 

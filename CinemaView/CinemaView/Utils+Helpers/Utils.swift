@@ -42,6 +42,7 @@ struct URLEndpoint {
     
     // Movies
     static let endpointMoviesGenre = "genre/movie/list?api_key=\(Constants.Api.apiKey)"
+    static let endpointDetailMoviesGenre = "/discover/movie?api_key=\(Constants.Api.apiKey)&with_genres=%@"
     
 }
 

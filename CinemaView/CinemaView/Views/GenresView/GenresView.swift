@@ -11,17 +11,24 @@ struct GenresView: View {
     @ObservedObject var viewModel: GenresViewModel
     
     var body: some View {
-        VStack{
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                    if self.viewModel.arrayGenres != nil {
+        ZStack {
+            Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
+            VStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
                         ForEach(self.viewModel.arrayGenres ?? []) { item in
-                            GenreCell(model: item)
+                            NavigationLink(destination: DetailGenresCoordinator.view(dto: DetailGenresCoordinatorDTO(genreObject: item))) {
+                                GenreCell(model: item)
+                            }
                         }
                     }
+                    .padding(.vertical, 30)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .navigationTitle("Genres")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear{
             self.viewModel.fetchData()
         }
@@ -39,14 +46,14 @@ struct GenreCell: View {
     var body: some View {
         ZStack() {
             RoundedRectangle(cornerRadius: 8)
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.gray, Color.black]),
-                                     startPoint: .bottom,
-                                     endPoint: .top))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.hex(Constants.Colors.primaryColor)]),
+                                     startPoint: .top,
+                                     endPoint: .bottom))
                 .frame(maxWidth: .infinity, minHeight: 100)
             
             VStack() {
                 Text(genresModel.name ?? "")
-                    .font(.title3)
+                    .font(.title2)
                     .lineLimit(1)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -57,28 +64,22 @@ struct GenreCell: View {
                     EmojiView()
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
-        
+                
+                Spacer()
+                
             }
             .padding(15)
             
         }
         .padding(6)
     }
+    
 }
 
-struct Genres_Previews: PreviewProvider {
-    static var previews: some View {
-        GenresView(viewModel: GenresViewModel())
-            .environment(\.colorScheme, .dark)
-    }
-}
-
-//extension String {
-//    static var randomEmoji: String {
-//        let range = [UInt32](0x1F600...0x1F64F)
-//        let ascii = range[Int(drand48() * (Double(range.count)))]
-//        let emoji = UnicodeScalar(ascii)?.description
-//        return emoji!
+//struct Genres_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GenresView(viewModel: GenresViewModel())
+//            .environment(\.colorScheme, .dark)
 //    }
 //}
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Welcome
+// MARK: - GenresModel
 struct GenresModel: Codable {
     let genres: [Genre]?
 
@@ -24,5 +24,18 @@ struct Genre: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
+    }
+}
+
+
+extension Bundle {
+    
+    func loadAndDecodeJSON<D: Decodable>(filename: String) throws -> D? {
+        guard let url = self.url(forResource: filename, withExtension: "json") else {
+            return nil
+        }
+        let data = try Data(contentsOf: url)
+        let decodeModel = try JSONDecoder().decode(D.self, from: data)
+        return decodeModel
     }
 }
