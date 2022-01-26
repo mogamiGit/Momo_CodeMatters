@@ -27,7 +27,6 @@ struct Genre: Codable, Identifiable {
     }
 }
 
-
 extension Bundle {
     
     func loadAndDecodeJSON<D: Decodable>(filename: String) throws -> D? {

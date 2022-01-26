@@ -22,6 +22,14 @@ struct HomeView: View {
                         Text("Genres")
                     }
                 }
+            
+            MoviesCoordinator.navigation()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "play.tv.fill")
+                        Text("Movies")
+                    }
+                }
         }
         .accentColor(Color.hex(Constants.Colors.accentColor))
     }

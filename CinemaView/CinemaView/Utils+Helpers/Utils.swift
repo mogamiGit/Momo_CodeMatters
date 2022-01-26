@@ -40,9 +40,15 @@ struct URLEndpoint {
         case firebase
     }
     
-    // Movies
+    // Genres
     static let endpointMoviesGenre = "genre/movie/list?api_key=\(Constants.Api.apiKey)"
     static let endpointDetailMoviesGenre = "/discover/movie?api_key=\(Constants.Api.apiKey)&with_genres=%@"
+    
+    // Movies
+    static let endpointMoviesPopular = "movie/popular?api_key=\(Constants.Api.apiKey)"
+    static let endpointMoviesTopRated = "movie/top_rated?api_key=\(Constants.Api.apiKey)"
+    static let endpointMoviesUpcoming = "movie/upcoming?api_key=\(Constants.Api.apiKey)"
+    static let endpointPersonPopular = "person/popular?api_key=\(Constants.Api.apiKey)"
     
 }
 
