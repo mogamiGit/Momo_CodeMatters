@@ -24,7 +24,7 @@ final class DetailGenresCoordinator: BaseCoordinator {
                                               interactor: Interactor.self,
                                               provider: Provider.self)
         
-        vip.provider.genreObject = dto?.genreObject ?? NewGenresModel(id: 0, name: "")
+//        vip.provider.genreObject = dto?.genreObject ?? NewGenresModel(id: 0, name: "")
         
         let view = ContentView(viewModel: vip.viewModel)
         return view

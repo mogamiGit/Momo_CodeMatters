@@ -15,6 +15,7 @@ struct GenresView: View {
             Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
+                    TitleSectionView(title: "Genres")
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
                         ForEach(self.viewModel.arrayGenres ?? []) { item in
                             NavigationLink(destination: DetailGenresCoordinator.view(dto: DetailGenresCoordinatorDTO(genreObject: item))) {
@@ -22,7 +23,6 @@ struct GenresView: View {
                             }
                         }
                     }
-                    .padding(.vertical, 30)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -37,7 +37,7 @@ struct GenresView: View {
 
 struct GenreCell: View {
     
-    var genresModel: NewGenresModel
+    private var genresModel: NewGenresModel
     
     init(model: NewGenresModel) {
         self.genresModel = model
