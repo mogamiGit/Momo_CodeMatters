@@ -32,6 +32,7 @@ struct HomeView: View {
                 }
         }
         .accentColor(Color.hex(Constants.Colors.accentColor))
+        .environment(\.colorScheme, .dark)
     }
 }
 

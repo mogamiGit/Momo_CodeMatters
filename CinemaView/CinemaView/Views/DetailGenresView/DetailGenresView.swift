@@ -43,7 +43,7 @@ struct DetailGenreCell: View {
     
     var body: some View {
         VStack() {
-            Text(moviesModel.title ?? "")
+            Text(moviesModel.name ?? "")
             if self.imageLoaderVM.image != nil {
                 Image(uiImage: self.imageLoaderVM.image!)
                     .resizable()

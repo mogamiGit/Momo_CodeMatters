@@ -13,8 +13,8 @@ struct TitleSectionView: View {
     
     var body: some View {
         Text(title)
-            .font(.title)
-            .fontWeight(.bold)
+            .font(.system(size: 40))
+            .fontWeight(.semibold)
             .foregroundColor(.white)
     }
 }

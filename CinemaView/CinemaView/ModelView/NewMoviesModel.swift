@@ -12,7 +12,7 @@ struct NewMoviesModel: Identifiable {
     let id: Int?
     let backdropPath: String?
     let posterPath: String?
-    let title: String?
+    let name: String?
     
     var posterUrl: URL {
         return URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath ?? "")")!

@@ -29,7 +29,7 @@ class DetailGenresInteractor: BaseInteractor {
         var arrayDetailGenreModel: [NewMoviesModel] = []
         if let dataDes = data {
             for index in 0..<dataDes.count {
-                let object = NewMoviesModel(id: dataDes[index].id, backdropPath: dataDes[index].backdropPath, posterPath: dataDes[index].posterPath, title: dataDes[index].title)
+                let object = NewMoviesModel(id: dataDes[index].id, backdropPath: dataDes[index].backdropPath, posterPath: dataDes[index].posterPath, name: dataDes[index].title)
                 arrayDetailGenreModel.append(object)
             }
         }

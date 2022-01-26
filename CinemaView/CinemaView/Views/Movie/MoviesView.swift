@@ -11,12 +11,30 @@ struct MoviesView: View {
     @ObservedObject var viewModel: MoviesViewModel
     
     var body: some View {
-        VStack{
-            Text("hello world!")
-                .fontWeight(.bold)
-        }
-        .onAppear{
+        ZStack {
+            Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
             
+            VStack(spacing: 20) {
+                TitleSectionView(title: "Movies")
+                
+                Group {
+                    if !self.viewModel.arrayMoviesPopular.isEmpty {
+                        GenericCarouselView(title: "Popular", colorHex: Constants.Colors.accentColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesPopular)
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 16,
+                                          leading: 0,
+                                          bottom: 8,
+                                          trailing: 0))
+                
+                Spacer()
+            }
+            
+        }
+        .navigationTitle("Movies")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear{
+            self.viewModel.fetchData()
         }
     }
 }
