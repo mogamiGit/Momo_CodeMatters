@@ -39,11 +39,11 @@ struct MoviesView: View {
     }
 }
 
-struct Movies_Previews: PreviewProvider {
-    static var previews: some View {
-        MoviesView(viewModel: MoviesViewModel())
-            .environment(\.colorScheme, .dark)
-    }
-}
+//struct Movies_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MoviesView(viewModel: MoviesViewModel())
+//            .environment(\.colorScheme, .dark)
+//    }
+//}
 
 

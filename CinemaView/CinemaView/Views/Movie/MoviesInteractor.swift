@@ -29,7 +29,10 @@ class MoviesInteractor: BaseInteractor {
         var arrayMoviesModel: [NewMoviesModel] = []
         if let dataDes = data {
             for index in 0..<dataDes.count {
-                let object = NewMoviesModel(id: dataDes[index].id, backdropPath: dataDes[index].backdropPath, posterPath: dataDes[index].posterPath, name: dataDes[index].title)
+                let object = NewMoviesModel(id: dataDes[index].id,
+                                            backdropPath: dataDes[index].backdropPath,
+                                            posterPath: dataDes[index].posterPath,
+                                            name: dataDes[index].title)
                 arrayMoviesModel.append(object)
             }
         }

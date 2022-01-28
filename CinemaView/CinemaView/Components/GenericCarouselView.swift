@@ -62,7 +62,7 @@ struct MoviePosterCell: View {
     
     var body: some View {
         
-        VStack {
+        VStack () {
             ZStack {
                 if self.imageLoaderVM.image != nil {
                     Image(uiImage: self.imageLoaderVM.image!)
@@ -82,17 +82,14 @@ struct MoviePosterCell: View {
                 }
             }
             .frame(width: self.isPoster ? 240 : 270, height: self.isPoster ? 306 : 150)
+            .padding(.bottom, 15)
+            .padding(.leading, self.isPoster ? 0 : 20)
             
             Text(self.modelData.name ?? "")
-                    .fontWeight(.medium)
-                    .padding(.top, 15)
-                    .lineLimit(1)
+                .fontWeight(.medium)
+                .lineLimit(1)
+                .padding(.leading, self.isPoster ? 10 : 0)
+                .frame(maxWidth: self.isPoster ? 180 : 200, alignment: .leading)
         }
     }
 }
-
-//struct GenericCarouselView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GenericCarouselView()
-//    }
-//}
