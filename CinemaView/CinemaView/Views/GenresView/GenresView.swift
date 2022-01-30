@@ -27,8 +27,8 @@ struct GenresView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .navigationTitle("Genres")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
         .onAppear{
             self.viewModel.fetchData()
         }

@@ -34,7 +34,10 @@ struct GenericCarouselView: View {
                 
                 HStack(alignment: .top, spacing: 20) {
                     ForEach(self.moviesModel) { movie in
-                        MoviePosterCell(model: movie, isPoster: self.isPosterFromMoviesView)
+                        NavigationLink(destination: DetailMovieCoordinator.view(
+                            dto: DetailMovieCoordinatorDTO(movieObject: movie))) {
+                            MoviePosterCell(model: movie, isPoster: self.isPosterFromMoviesView)
+                        }
                     }
                     .buttonStyle(PlainButtonStyle())
                 }

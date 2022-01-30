@@ -24,12 +24,17 @@ final class DetailMovieCoordinator: BaseCoordinator {
                                               interactor: Interactor.self,
                                               provider: Provider.self)
         
+        vip.provider.movieObject = dto?.movieObject ?? NewMoviesModel(id: 0,
+                                                                        backdropPath: "",
+                                                                        posterPath: "",
+                                                                        name: "")
+        
         let view = ContentView(viewModel: vip.viewModel)
         return view
     }
 }
 
 struct DetailMovieCoordinatorDTO {
-    
+    var movieObject: NewMoviesModel
 }
 

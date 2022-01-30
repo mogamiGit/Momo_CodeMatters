@@ -14,12 +14,12 @@ struct MoviesView: View {
         ZStack {
             Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
             
-            VStack(spacing: 20) {
+            VStack(spacing: 10) {
                 TitleSectionView(title: "Movies")
                 
                 Group {
                     if !self.viewModel.arrayMoviesPopular.isEmpty {
-                        GenericCarouselView(title: "Popular", colorHex: Constants.Colors.accentColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesPopular)
+                        GenericCarouselView(title: "Popular", colorHex: Constants.Colors.primaryColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesPopular)
                     }
                 }
                 .listRowInsets(EdgeInsets(top: 16,
@@ -31,8 +31,8 @@ struct MoviesView: View {
             }
             
         }
-        .navigationTitle("Movies")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
         .onAppear{
             self.viewModel.fetchData()
         }

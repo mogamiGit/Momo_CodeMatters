@@ -13,9 +13,9 @@ struct TitleSectionView: View {
     
     var body: some View {
         Text(title)
-            .font(.system(size: 40))
-            .fontWeight(.semibold)
-            .foregroundColor(.white)
+            .font(.system(size: 35))
+            .fontWeight(.light)
+            .foregroundColor(Color.hex(Constants.Colors.accentColor))
     }
 }
 
