@@ -13,6 +13,7 @@ protocol DetailMovieInteractorOutputProtocol: BaseInteractorOutputProtocol {
 final class DetailMovieViewModel: BaseViewModel, ObservableObject {
     
     @Published var model: DetailMovieModel?
+    @Published var arrayGenres: [DetailGenresViewModel] = []
     
     // MARK: VIP Dependencies
     var interactor: DetailMovieInteractorInputProtocol? {

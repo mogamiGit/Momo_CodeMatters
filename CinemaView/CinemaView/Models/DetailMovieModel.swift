@@ -92,7 +92,7 @@ struct DetailMovieModel: Codable {
     var ratingText: String {
         let rating = Int(voteAverage ?? 0)
         let ratingText = (0..<rating).reduce("") { (acc, _) -> String in
-            return acc + "★"
+            return acc + "🦄"
         }
         return ratingText
     }
@@ -138,7 +138,7 @@ struct DetailMovieModel: Codable {
     
     static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter ()
-        dateFormatter.dateFormat = "dd-mm-yyyy"
+        dateFormatter.dateFormat = "yyyy-mm-dd"
         return dateFormatter
     }()
     
@@ -241,7 +241,7 @@ struct Crew: Codable, Identifiable {
 }
 
 // MARK: - Genre
-struct Genres: Codable {
+struct Genres: Codable, Identifiable {
     let id: Int?
     let name: String?
 

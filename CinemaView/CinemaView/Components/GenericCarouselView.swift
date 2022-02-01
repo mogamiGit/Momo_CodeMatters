@@ -81,7 +81,6 @@ struct MoviePosterCell: View {
                                                  endPoint: .bottom))
                             .cornerRadius(8)
                     }
-                    
                 }
             }
             .frame(width: self.isPoster ? 240 : 270, height: self.isPoster ? 306 : 150)
