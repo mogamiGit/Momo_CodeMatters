@@ -25,7 +25,7 @@ class DetailGenresInteractor: BaseInteractor {
         super.baseProvider as? DetailGenresProviderInputProtocol
     }
     
-    func transformDataDetailGenreToNewMoviesModel(data: [ResultFilterGenre]?) -> [NewMoviesModel]? {
+    func transformDataDetailGenreToNewGenresModel(data: [ResultFilterGenre]?) -> [NewMoviesModel]? {
         var arrayDetailGenreModel: [NewMoviesModel] = []
         if let dataDes = data {
             for index in 0..<dataDes.count {
@@ -52,7 +52,7 @@ extension DetailGenresInteractor: DetailGenresProviderOutputProtocol {
         
         switch completionData{
         case .success(let data):
-            self.viewModel?.setInfoDetailGenreViewModel(data: self.transformDataDetailGenreToNewMoviesModel(data: data))
+            self.viewModel?.setInfoDetailGenreViewModel(data: self.transformDataDetailGenreToNewGenresModel(data: data))
         case .failure(let error):
             debugPrint(error)
         }

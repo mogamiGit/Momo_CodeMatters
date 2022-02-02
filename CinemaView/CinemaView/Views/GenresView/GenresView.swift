@@ -23,10 +23,11 @@ struct GenresView: View {
                             }
                         }
                     }
+                    .padding(.bottom, 80)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .onAppear{

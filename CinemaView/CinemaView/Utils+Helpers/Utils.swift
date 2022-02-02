@@ -42,7 +42,7 @@ struct URLEndpoint {
     
     // Genres
     static let endpointMoviesGenre = "genre/movie/list?api_key=\(Constants.Api.apiKey)"
-    static let endpointDetailMoviesGenre = "/discover/movie?api_key=\(Constants.Api.apiKey)&with_genres=%@"
+    static let endpointDetailMoviesGenre = "discover/movie?api_key=\(Constants.Api.apiKey)&with_genres=%@"
     
     // Movies
     static let endpointMoviesPopular = "movie/popular?api_key=\(Constants.Api.apiKey)"
@@ -51,6 +51,9 @@ struct URLEndpoint {
     static let endpointPersonPopular = "person/popular?api_key=\(Constants.Api.apiKey)"
     static let endpointMovieRecommendation = "movie/%@/recommendations?api_key=\(Constants.Api.apiKey)"
     static let endpointDetailMovie = "movie/%@?api_key=\(Constants.Api.apiKey)&append_to_response=%@" // videos,credits
+    
+    //Collections
+    static let endpointCollection = "collection/%@?api_key=\(Constants.Api.apiKey)"
     
 }
 

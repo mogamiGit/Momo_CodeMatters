@@ -16,46 +16,62 @@ struct DetailGenresView: View {
             VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 2)) {
-                        ForEach(self.viewModel.arrayDetailGenre ?? []) { item in
-                            DetailGenreCell(model: item)
+                        ForEach(self.viewModel.arrayDetailGenre ?? []) { movie in
+                            NavigationLink(destination: DetailMovieCoordinator.view(
+                                dto: DetailMovieCoordinatorDTO(movieObject: movie))) {
+                                    DetailGenreCell(model: movie)
                             }
                         }
                     }
+                    .padding(.horizontal)
+                    .padding(.bottom, 80)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onAppear{
-                self.viewModel.fetchData()
-            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear{
+            self.viewModel.fetchData()
+        }
     }
 }
 
 struct DetailGenreCell: View {
     
     @ObservedObject var imageLoaderVM = ImageLoader()
-    
-    private var moviesModel: NewMoviesModel
+    private var movieModel: NewMoviesModel
     
     init(model: NewMoviesModel) {
-        self.moviesModel = model
+        self.movieModel = model
         self.imageLoaderVM.loadImage(whit: model.posterUrl)
     }
     
     var body: some View {
-        VStack() {
-            Text(moviesModel.name ?? "")
-            if self.imageLoaderVM.image != nil {
-                Image(uiImage: self.imageLoaderVM.image!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(8)
-                    .shadow(radius: 10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.red, lineWidth: 1)
-                    )
+        
+        VStack(spacing: 20) {
+            ZStack {
+                if self.imageLoaderVM.image != nil {
+                    Image(uiImage: self.imageLoaderVM.image!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(8)
+                        .shadow(radius: 10)
+                } else {
+                    ZStack{
+                        Rectangle()
+                            .fill(LinearGradient(gradient: Gradient(colors: [Color.hex(Constants.Colors.primaryColor), Color.clear]),
+                                                 startPoint: .top,
+                                                 endPoint: .bottom))
+                            .frame(width: 160, height: 240)
+                            .cornerRadius(8)
+                    }
+                }
             }
+            
+            Text(movieModel.name ?? "")
+                .lineLimit(1)
+                .padding(.bottom)
         }
+        .padding(.horizontal, 10)
     }
 }
 

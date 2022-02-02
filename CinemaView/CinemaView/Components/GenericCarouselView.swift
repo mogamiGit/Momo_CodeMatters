@@ -30,8 +30,6 @@ struct GenericCarouselView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 
-                
-                
                 HStack(alignment: .top, spacing: 20) {
                     ForEach(self.moviesModel) { movie in
                         NavigationLink(destination: DetailMovieCoordinator.view(

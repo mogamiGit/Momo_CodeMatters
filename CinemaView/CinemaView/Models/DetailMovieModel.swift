@@ -147,7 +147,7 @@ struct DetailMovieModel: Codable {
 }
 
 // MARK: - BelongsToCollection
-struct BelongsToCollection: Codable {
+struct BelongsToCollection: Codable, Identifiable {
     let id: Int?
     let name: String?
     let posterPath: String?

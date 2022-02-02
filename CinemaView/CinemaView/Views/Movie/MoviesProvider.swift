@@ -9,6 +9,8 @@ import Combine
 // MARK: - Input Provider
 protocol MoviesProviderInputProtocol: BaseProviderInputProtocol {
     func fetchDataPopularMoviesProvider()
+    func fetchDataTopRatedMoviesProvider()
+    func fetchDataUpcomingMoviesProvider()
 }
 
 final class MoviesProvider: BaseProvider {
@@ -43,6 +45,48 @@ extension MoviesProvider: MoviesProviderInputProtocol {
                 }
             } receiveValue: { resultData in
                 self.interactor?.setInfoPopularMovies(completionData: .success(resultData.results))
+            }
+            .store(in: &cancellable)
+    }
+    
+    func fetchDataTopRatedMoviesProvider() {
+        let request = RequestDTO(params: nil,
+                                 arrayParams: nil,
+                                 method: .get,
+                                 urlContext: .webService,
+                                 endpoint: URLEndpoint.endpointMoviesTopRated)
+        
+        self.networkService.requestGeneric(request: request,
+                                           entityClass: MoviesModel.self)
+            .sink { completion in
+                switch completion{
+                case .finished: break
+                case .failure(let error):
+                    self.interactor?.setInfoTopRatedMovies(completionData: .failure(error))
+                }
+            } receiveValue: { resultData in
+                self.interactor?.setInfoTopRatedMovies(completionData: .success(resultData.results))
+            }
+            .store(in: &cancellable)
+    }
+    
+    func fetchDataUpcomingMoviesProvider() {
+        let request = RequestDTO(params: nil,
+                                 arrayParams: nil,
+                                 method: .get,
+                                 urlContext: .webService,
+                                 endpoint: URLEndpoint.endpointMoviesUpcoming)
+        
+        self.networkService.requestGeneric(request: request,
+                                           entityClass: MoviesModel.self)
+            .sink { completion in
+                switch completion{
+                case .finished: break
+                case .failure(let error):
+                    self.interactor?.setInfoUpcomingMovies(completionData: .failure(error))
+                }
+            } receiveValue: { resultData in
+                self.interactor?.setInfoUpcomingMovies(completionData: .success(resultData.results))
             }
             .store(in: &cancellable)
     }

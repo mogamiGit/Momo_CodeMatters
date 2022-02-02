@@ -8,10 +8,14 @@ import Foundation
 // MARK: - Input Interactor
 protocol MoviesInteractorInputProtocol: BaseInteractorInputProtocol {
     func fetchDataPopularMoviesInteractor()
+    func fetchDataTopRatedMoviesInteractor()
+    func fetchDataUpcomingMoviesInteractor()
 }
 // MARK: - Output -> Provider
 protocol MoviesProviderOutputProtocol: BaseProviderOutputProtocol {
     func setInfoPopularMovies(completionData: Result<[ResultMovies]?, NetworkingError>)
+    func setInfoTopRatedMovies(completionData: Result<[ResultMovies]?, NetworkingError>)
+    func setInfoUpcomingMovies(completionData: Result<[ResultMovies]?, NetworkingError>)
 }
 
 class MoviesInteractor: BaseInteractor {
@@ -47,6 +51,14 @@ extension MoviesInteractor: MoviesInteractorInputProtocol {
     func fetchDataPopularMoviesInteractor() {
         self.provider?.fetchDataPopularMoviesProvider()
     }
+    
+    func fetchDataTopRatedMoviesInteractor() {
+        self.provider?.fetchDataTopRatedMoviesProvider()
+    }
+    
+    func fetchDataUpcomingMoviesInteractor() {
+        self.provider?.fetchDataUpcomingMoviesProvider()
+    }
 }
 
 extension MoviesInteractor: MoviesProviderOutputProtocol {
@@ -55,6 +67,24 @@ extension MoviesInteractor: MoviesProviderOutputProtocol {
         switch completionData{
         case .success(let data):
             self.viewModel?.setInfoPopularMoviesViewModel(data: self.transformDataMoviesToNewMoviesModel(data: data))
+        case .failure(let error):
+            debugPrint(error)
+        }
+    }
+    
+    func setInfoTopRatedMovies(completionData: Result<[ResultMovies]?, NetworkingError>) {
+        switch completionData{
+        case .success(let data):
+            self.viewModel?.setInfoTopRatedMoviesViewModel(data: self.transformDataMoviesToNewMoviesModel(data: data))
+        case .failure(let error):
+            debugPrint(error)
+        }
+    }
+    
+    func setInfoUpcomingMovies(completionData: Result<[ResultMovies]?, NetworkingError>) {
+        switch completionData{
+        case .success(let data):
+            self.viewModel?.setInfoUpcomingMoviesViewModel(data: self.transformDataMoviesToNewMoviesModel(data: data))
         case .failure(let error):
             debugPrint(error)
         }

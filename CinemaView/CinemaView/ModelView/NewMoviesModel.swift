@@ -15,10 +15,10 @@ struct NewMoviesModel: Identifiable {
     let name: String?
     
     var posterUrl: URL {
-        return URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath ?? "")")!
+        return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath ?? "")")!
     }
     
     var backdropUrl : URL {
-        return URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath ?? "")")!
+        return URL(string: "https://image.tmdb.org/t/p/w500\(backdropPath ?? "")")!
     }
 }

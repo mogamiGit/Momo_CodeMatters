@@ -83,7 +83,7 @@ struct DetailMovieView: View {
                             YoutubeTrailers(viewModel: viewModel)
                         }
                         
-                        VStack {
+                        VStack(alignment: .leading) {
                             if !self.viewModel.arrayMoviesRecommended.isEmpty {
                                 GenericCarouselView(title: "Recommendations", colorHex: Constants.Colors.primaryColor, isPosterFromMoviesView: false, moviesModel: self.viewModel.arrayMoviesRecommended)
                             }

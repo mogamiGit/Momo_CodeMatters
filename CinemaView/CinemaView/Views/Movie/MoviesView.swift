@@ -14,22 +14,32 @@ struct MoviesView: View {
         ZStack {
             Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
             
-            VStack(spacing: 10) {
-                TitleSectionView(title: "Movies")
-                
-                Group {
-                    if !self.viewModel.arrayMoviesPopular.isEmpty {
-                        GenericCarouselView(title: "Popular", colorHex: Constants.Colors.primaryColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesPopular)
+            ScrollView() {
+                VStack(spacing: 10) {
+                    TitleSectionView(title: "Movies")
+                    
+                    VStack(alignment: .leading, spacing: 30) {
+                        Group {
+                            if !self.viewModel.arrayMoviesPopular.isEmpty {
+                                GenericCarouselView(title: "Popular", colorHex: Constants.Colors.primaryColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesPopular)
+                            }
+                        }
+                        
+                        Group {
+                            if !self.viewModel.arrayMoviesTopRated.isEmpty {
+                                GenericCarouselView(title: "Top Rated", colorHex: Constants.Colors.secondaryColor, isPosterFromMoviesView: false, moviesModel: self.viewModel.arrayMoviesTopRated)
+                            }
+                        }
+                        
+                        Group {
+                            if !self.viewModel.arrayMoviesUpcoming.isEmpty {
+                                GenericCarouselView(title: "Upcoming", colorHex: Constants.Colors.secondaryColor, isPosterFromMoviesView: true, moviesModel: self.viewModel.arrayMoviesUpcoming)
+                            }
+                        }
                     }
+                    .padding(.bottom, 80)
                 }
-                .listRowInsets(EdgeInsets(top: 16,
-                                          leading: 0,
-                                          bottom: 8,
-                                          trailing: 0))
-                
-                Spacer()
             }
-            
         }
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)

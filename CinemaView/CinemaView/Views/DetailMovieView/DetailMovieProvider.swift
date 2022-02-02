@@ -77,6 +77,7 @@ extension DetailMovieProvider: DetailMovieProviderInputProtocol {
             }
             .store(in: &cancellable)
     }
+    
 }
 
 
