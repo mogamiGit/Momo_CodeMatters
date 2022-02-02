@@ -8,10 +8,12 @@ import Foundation
 // MARK: - Input Interactor
 protocol DetailMovieInteractorInputProtocol: BaseInteractorInputProtocol {
     func fetchDataDetailMovieInteractor()
+    func fetchDataMovieRecommendationsInteractor()
 }
 // MARK: - Output -> Provider
 protocol DetailMovieProviderOutputProtocol: BaseProviderOutputProtocol {
     func setInfoDetailMovie(completionData: Result<DetailMovieModel?, NetworkingError>)
+    func setInfoMoviesRecommendation(completionData: Result<[ResultMovies]?, NetworkingError>)
 }
 
 class DetailMovieInteractor: BaseInteractor {
@@ -47,14 +49,27 @@ extension DetailMovieInteractor: DetailMovieInteractorInputProtocol {
     func fetchDataDetailMovieInteractor() {
         self.provider?.fetchDataDetailMovieWithParametersProvider()
     }
+    
+    func fetchDataMovieRecommendationsInteractor() {
+        self.provider?.fetchDataMovieRecommendationsProvider()
+    }
 }
 
 extension DetailMovieInteractor: DetailMovieProviderOutputProtocol {
     
     func setInfoDetailMovie(completionData: Result<DetailMovieModel?, NetworkingError>) {
-        switch completionData{
+        switch completionData {
         case .success(let data):
             self.viewModel?.setInfoDetailMovieViewModel(data: data)
+        case .failure(let error):
+            debugPrint(error)
+        }
+    }
+    
+    func setInfoMoviesRecommendation(completionData: Result<[ResultMovies]?, NetworkingError>) {
+        switch completionData{
+        case .success(let data):
+            self.viewModel?.setInfoMovieRecommendationViewModel(data: self.transformDataDetailMovieToNewMoviesModel(data: data))
         case .failure(let error):
             debugPrint(error)
         }

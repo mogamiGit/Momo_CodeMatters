@@ -22,19 +22,12 @@ struct DetailMovieView: View {
                 headerImage
                 
                 VStack {
-                    HStack() {
-                        Spacer()
-                        Text(self.viewModel.model?.genreText ?? "")
-                            .padding(20)
-                            .frame(minWidth: 80, maxWidth: 120, maxHeight: 40)
-                            .font(.callout)
-                            .foregroundColor(.black)
-                            .background(Color.white.opacity(0.9))
-                            .cornerRadius(20)
-                            .shadow(color: Color.black.opacity(0.6), radius: 20, x: 20, y: 20)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        if self.viewModel.model?.genres != nil && !(self.viewModel.model?.genres?.isEmpty ?? false) {
+                            GenresCarousel(model: self.viewModel.model?.genres ?? [])
+                        }
                     }
-                    .frame(maxWidth: .infinity)
-                    .offset(x: -20, y: -10)
+                    .offset(y: -10)
                     
                     VStack(alignment: .leading, spacing: 20) {
                         
@@ -57,6 +50,7 @@ struct DetailMovieView: View {
                                 Text(self.viewModel.model?.ratingText ?? "")
                                     .font(.title3)
                             }
+                            
                             Text(self.viewModel.model?.scoreText ?? "")
                                 .foregroundColor(Color.hex(Constants.Colors.secondaryColor))
                                 .font(.title3)
@@ -65,8 +59,7 @@ struct DetailMovieView: View {
                         
                         Text(self.viewModel.model?.overview ?? "")
                             .font(.title3)
-                        
-                        Spacer()
+                            .padding(.bottom)
                         
                         Divider()
                             .background(.white)
@@ -74,21 +67,36 @@ struct DetailMovieView: View {
                         Text("Starring")
                             .font(.title)
                             .fontWeight(.bold)
-                        ScrollView(.horizontal, showsIndicators: true) {
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
                             if self.viewModel.model?.cast != nil && !(self.viewModel.model?.cast?.isEmpty ?? false) {
                                 CastCarousel(model: self.viewModel.model?.cast ?? [])
                             }
                         }
+                        
+                        Group {
+                            CrewGroup(viewModel: viewModel)
+                            
+                            Divider()
+                                .background(.white)
+                            
+                            YoutubeTrailers(viewModel: viewModel)
+                        }
+                        
+                        VStack {
+                            if !self.viewModel.arrayMoviesRecommended.isEmpty {
+                                GenericCarouselView(title: "Recommendations", colorHex: Constants.Colors.primaryColor, isPosterFromMoviesView: false, moviesModel: self.viewModel.arrayMoviesRecommended)
+                            }
+                        }
+                        .padding(.bottom, 80)
                     }
                     .padding(.top)
                     .padding(.horizontal)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
                     .background(.black)
-                    
                 }
                 .offset(y: -80)
-                
             }
         }
         .navigationBarHidden(true)
@@ -173,17 +181,49 @@ struct MovieDetailImage: View {
     }
 }
 
+struct GenresCarousel: View {
+    let model: [Genres]
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .top, spacing: 10) {
+                ForEach(self.model) { item in
+                    Genrescell(model: item)
+                }
+            }
+            .padding(.leading, 20)
+        }
+    }
+}
+
+struct Genrescell: View {
+    
+    let modelGenres: Genres
+    
+    init(model: Genres) {
+        self.modelGenres = model
+    }
+    
+    var body: some View {
+        Text(self.modelGenres.name ?? "")
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .font(.footnote)
+            .foregroundColor(.black)
+            .background(Color.white.opacity(0.9))
+            .cornerRadius(20)
+    }
+}
+
 struct CastCarousel: View {
     
     let model: [Cast]
     
     var body: some View {
         VStack(alignment: .leading) {
-            ScrollView(.horizontal, showsIndicators: true) {
-                HStack(alignment: .top, spacing: 35) {
-                    ForEach(self.model) { item in
-                        CastCell(model: item)
-                    }
+            HStack(alignment: .top, spacing: 35) {
+                ForEach(self.model) { item in
+                    CastCell(model: item)
                 }
             }
         }
@@ -229,6 +269,89 @@ struct CastCell: View {
                 
             }
         }
+    }
+}
+
+struct CrewGroup: View {
+    
+    @ObservedObject var viewModel: DetailMovieViewModel
+    
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            
+            if self.viewModel.model?.directors != nil && !(self.viewModel.model?.directors?.isEmpty ?? false ) {
+                Text("Directors")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach((self.viewModel.model?.directors!.prefix(2))!) { item in
+                            Text(item.name ?? "").font(.body)
+                            Text("·")
+                        }
+                    }
+                }
+                .padding(.bottom)
+            }
+            
+            if self.viewModel.model?.screenWriters != nil && !(self.viewModel.model?.screenWriters?.isEmpty ?? false ) {
+                Text("Writters")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach((self.viewModel.model?.screenWriters!.prefix(2))!) { item in
+                            Text(item.name ?? "").font(.body)
+                            Text("·")
+                        }
+                    }
+                }
+                .padding(.bottom)
+            }
+        }
+    }
+}
+
+struct YoutubeTrailers: View {
+    
+    @ObservedObject var viewModel: DetailMovieViewModel
+    @State private var selectedTrailer: ResultVideos?
+    
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            if self.viewModel.model?.youtubeTrailers != nil && !(self.viewModel.model?.youtubeTrailers?.isEmpty ?? false) {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Trailers")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    ForEach(self.viewModel.model?.youtubeTrailers!.prefix(5) ?? []) { item in
+                        Button {
+                            self.selectedTrailer = item
+                        } label: {
+                            HStack{
+                                Image(systemName: "play.rectangle.fill")
+                                    .foregroundColor(Color.hex(Constants.Colors.accentColor))
+                                    .font(.system(size: 20))
+                                    .padding(.leading, 10)
+                                Text(item.name ?? "")
+                                    .lineLimit(1)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.bottom)
+            }
+        }
+        .sheet(item: self.$selectedTrailer, content: { trailer in
+            SafariView(url: trailer.youtubeURL!)
+        })
     }
 }
 

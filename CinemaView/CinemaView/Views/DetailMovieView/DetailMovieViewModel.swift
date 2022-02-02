@@ -8,12 +8,13 @@ import Foundation
 // MARK: - Output -> Interactor
 protocol DetailMovieInteractorOutputProtocol: BaseInteractorOutputProtocol {
     func setInfoDetailMovieViewModel(data: DetailMovieModel?)
+    func setInfoMovieRecommendationViewModel(data: [NewMoviesModel]?)
 }
 
 final class DetailMovieViewModel: BaseViewModel, ObservableObject {
     
     @Published var model: DetailMovieModel?
-    @Published var arrayGenres: [DetailGenresViewModel] = []
+    @Published var arrayMoviesRecommended: [NewMoviesModel] = []
     
     // MARK: VIP Dependencies
     var interactor: DetailMovieInteractorInputProtocol? {
@@ -22,6 +23,7 @@ final class DetailMovieViewModel: BaseViewModel, ObservableObject {
     
     func fecthDataDetail() {
         self.interactor?.fetchDataDetailMovieInteractor()
+        self.interactor?.fetchDataMovieRecommendationsInteractor()
     }
 }
 
@@ -30,6 +32,12 @@ extension DetailMovieViewModel: DetailMovieInteractorOutputProtocol {
     
     func setInfoDetailMovieViewModel(data: DetailMovieModel?) {
         self.model = data
+        self.state = .ok
+    }
+    
+    func setInfoMovieRecommendationViewModel(data: [NewMoviesModel]?) {
+        self.arrayMoviesRecommended.removeAll()
+        self.arrayMoviesRecommended = data ?? []
         self.state = .ok
     }
 }

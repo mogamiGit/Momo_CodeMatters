@@ -9,6 +9,7 @@ import Combine
 // MARK: - Input Provider
 protocol DetailMovieProviderInputProtocol: BaseProviderInputProtocol {
     func fetchDataDetailMovieWithParametersProvider()
+    func fetchDataMovieRecommendationsProvider()
 }
 
 final class DetailMovieProvider: BaseProvider {
@@ -49,6 +50,30 @@ extension DetailMovieProvider: DetailMovieProviderInputProtocol {
                 }
             } receiveValue: { resultData in
                 self.interactor?.setInfoDetailMovie(completionData: .success(resultData))
+            }
+            .store(in: &cancellable)
+    }
+    
+    func fetchDataMovieRecommendationsProvider() {
+        let movieId = "\(movieObject?.id ?? 0)"
+        let parameters: [CVarArg] = [movieId]
+        let finalEndpoint = String(format: URLEndpoint.endpointMovieRecommendation, arguments: parameters)
+        let request = RequestDTO(params: nil,
+                                 arrayParams: nil,
+                                 method: .get,
+                                 urlContext: .webService,
+                                 endpoint: finalEndpoint)
+        
+        self.networkService.requestGeneric(request: request,
+                                           entityClass: MoviesModel.self)
+            .sink { completion in
+                switch completion{
+                case .finished: break
+                case .failure(let error):
+                    self.interactor?.setInfoMoviesRecommendation(completionData: .failure(error))
+                }
+            } receiveValue: { resultData in
+                self.interactor?.setInfoMoviesRecommendation(completionData: .success(resultData.results))
             }
             .store(in: &cancellable)
     }

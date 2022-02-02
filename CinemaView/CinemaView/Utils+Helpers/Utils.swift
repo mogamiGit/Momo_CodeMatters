@@ -49,6 +49,7 @@ struct URLEndpoint {
     static let endpointMoviesTopRated = "movie/top_rated?api_key=\(Constants.Api.apiKey)"
     static let endpointMoviesUpcoming = "movie/upcoming?api_key=\(Constants.Api.apiKey)"
     static let endpointPersonPopular = "person/popular?api_key=\(Constants.Api.apiKey)"
+    static let endpointMovieRecommendation = "movie/%@/recommendations?api_key=\(Constants.Api.apiKey)"
     static let endpointDetailMovie = "movie/%@?api_key=\(Constants.Api.apiKey)&append_to_response=%@" // videos,credits
     
 }

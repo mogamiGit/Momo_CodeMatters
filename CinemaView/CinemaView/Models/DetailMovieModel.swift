@@ -116,10 +116,6 @@ struct DetailMovieModel: Codable {
         crew?.filter { $0.job?.lowercased() == "director"}
     }
     
-    var producers: [Crew]? {
-        crew?.filter { $0.job?.lowercased() == "producers"}
-    }
-    
     var screenWriters: [Crew]? {
         crew?.filter { $0.job?.lowercased() == "story"}
     }
