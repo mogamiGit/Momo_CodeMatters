@@ -105,6 +105,7 @@ struct DetailMovieView: View {
         .onAppear{
             self.viewModel.fecthDataDetail()
         }
+        
     }
     
     var headerImage: some View {
@@ -137,6 +138,7 @@ struct DetailMovieView: View {
                 
                 Button(action: {
                     self.isFavorite.toggle()
+                    self.viewModel.saveFavoriteInFirebase()
                 }) {
                     Image(systemName: self.isFavorite ? "heart.fill" : "heart")
                         .foregroundColor(Color.black)

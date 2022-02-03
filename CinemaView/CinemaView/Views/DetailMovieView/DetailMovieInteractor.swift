@@ -9,6 +9,7 @@ import Foundation
 protocol DetailMovieInteractorInputProtocol: BaseInteractorInputProtocol {
     func fetchDataDetailMovieInteractor()
     func fetchDataMovieRecommendationsInteractor()
+    func saveDataInFirebaseDB(data: DetailMovieModel)
 }
 // MARK: - Output -> Provider
 protocol DetailMovieProviderOutputProtocol: BaseProviderOutputProtocol {
@@ -52,6 +53,10 @@ extension DetailMovieInteractor: DetailMovieInteractorInputProtocol {
     
     func fetchDataMovieRecommendationsInteractor() {
         self.provider?.fetchDataMovieRecommendationsProvider()
+    }
+    
+    func saveDataInFirebaseDB(data: DetailMovieModel) {
+        self.provider?.saveDataInFirebaseDBProvider(data: data)
     }
 }
 
