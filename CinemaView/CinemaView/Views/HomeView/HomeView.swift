@@ -30,6 +30,14 @@ struct HomeView: View {
                         Text("Movies")
                     }
                 }
+            
+            FavouritesCoordinator.navigation()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "heart.rectangle.fill")
+                        Text("Favorite")
+                    }
+                }
         }
         .accentColor(Color.hex(Constants.Colors.accentColor))
         .environment(\.colorScheme, .dark)

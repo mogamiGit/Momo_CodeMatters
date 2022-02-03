@@ -9,7 +9,9 @@ struct DetailMovieView: View {
     
     // MARK: ObservedObject -> MVVM Dependencies
     @ObservedObject var viewModel: DetailMovieViewModel
+    
     @SwiftUI.Environment(\.presentationMode) var presenterMode
+    
     @State private var selectedTrailer: ResultVideos?
     @State var isFavorite = false
     

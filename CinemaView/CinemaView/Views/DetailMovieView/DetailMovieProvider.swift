@@ -83,17 +83,20 @@ extension DetailMovieProvider: DetailMovieProviderInputProtocol {
     
     func saveDataInFirebaseDBProvider(data: DetailMovieModel) {
         
-        let docRef = dbFirebase.collection("Favourites").document("movies")
+        let userId = "m.galan"
         let movieId = "\(movieObject?.id ?? 0)"
         
+        let movieDetails : [String: Any] = [
+            "id" : "\(data.id ?? 0)",
+            "backdropPath":"\(data.backdropPath ?? "")",
+            "posterPath":"\(data.posterPath ?? "")",
+            "name":"\(data.title ?? "")"
+        ]
+        
+        let docRef = dbFirebase.collection("favourites").document("\(userId)")
+        
         if "\(data.id ?? 0)" == movieId {
-            docRef.setData(["id": "\(data.id ?? 0)"], merge: true) { err in
-                if let err = err {
-                    print("Error writing document: \(err)")
-                } else {
-                    print("Document successfully written!")
-                }
-            }
+            docRef.collection("movies").document().setData(movieDetails, merge: true)
         }
     }
     
