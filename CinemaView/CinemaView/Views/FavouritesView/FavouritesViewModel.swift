@@ -13,7 +13,7 @@ protocol FavouritesInteractorOutputProtocol: BaseInteractorOutputProtocol {
 
 final class FavouritesViewModel: BaseViewModel, ObservableObject {
     
-    @Published var movies = [NewMoviesModel]()
+    @Published var arrayMoviesFav : [NewMoviesModel] = []
     private var dbFirebase = Firestore.firestore()
     
     // MARK: VIP Dependencies
@@ -21,24 +21,31 @@ final class FavouritesViewModel: BaseViewModel, ObservableObject {
         super.baseInteractor as? FavouritesInteractorInputProtocol
     }
     
-//    func fetchData() {
-//        dbFirebase.collection("Favourites").addSnapshotListener { (querySnapshot, error) in guard let documents = querySnapshot?.documents else {
-//            print("No documents")
-//            return
-//          }
-//
-//          self.movies = documents.map { queryDocumentSnapshot -> NewMoviesModel in let data = queryDocumentSnapshot.data()
-//            let title = data["title"] as? String ?? ""
-//            let author = data["author"] as? String ?? ""
-//            let numberOfPages = data["pages"] as? Int ?? 0
-//
-//            return NewMoviesModel(id: 0, backdropPath: <#T##String?#>, posterPath: <#T##String?#>, name: <#T##String?#>)
-//          }
-//        }
-//      }
+    func fetchData() {
+        
+        let userId = "m.galan"
+        
+        dbFirebase.collection("favourites").document("\(userId)").collection("movies").addSnapshotListener { (querySnapshot, error) in guard let documents = querySnapshot?.documents else {
+            print("No documents")
+            return
+            }
+            
+            documents.forEach { document in
+                self.arrayMoviesFav = documents.map { queryDocumentSnapshot -> NewMoviesModel in let data = queryDocumentSnapshot.data()
+                    let id = data["title"] as? Int ?? 0
+                    let backdropPath = data["backdropPath"] as? String ?? ""
+                    let posterPath = data["posterPath"] as? String ?? ""
+                    let name = data["name"] as? String ?? ""
+                    
+                    return NewMoviesModel(id: id, backdropPath: backdropPath, posterPath: posterPath, name: name)
+                }
+            }
+        }
+        
+    }
 }
 
 // MARK: - Extensions
 extension FavouritesViewModel: FavouritesInteractorOutputProtocol {
-
+    
 }

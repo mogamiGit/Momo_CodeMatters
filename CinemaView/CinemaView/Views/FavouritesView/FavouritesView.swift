@@ -11,21 +11,51 @@ struct FavouritesView: View {
     @ObservedObject var viewModel: FavouritesViewModel
     
     var body: some View {
-        VStack{
-            Text("hello world!")
-                .fontWeight(.bold)
+        ZStack {
+            Color.hex(Constants.Colors.backgroundColor).ignoresSafeArea()
+            VStack(spacing: 10) {
+                TitleSectionView(title: "My Favourites")
+                
+                List() {
+                    ForEach(self.viewModel.arrayMoviesFav ?? []) { movie in
+                        movieFavCell(model: movie)
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 16,
+                                           leading: 0,
+                                           bottom: 0,
+                                           trailing: 0))
+                
+                Spacer()
+            }
         }
-        .onAppear{
-            
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .onAppear() {
+            self.viewModel.fetchData()
         }
     }
 }
 
-struct Favourites_Previews: PreviewProvider {
-    static var previews: some View {
-        FavouritesView(viewModel: FavouritesViewModel())
-            .environment(\.colorScheme, .dark)
+struct movieFavCell: View {
+    private var movieModel: NewMoviesModel
+    
+    init(model: NewMoviesModel) {
+        self.movieModel = model
+    }
+    
+    var body: some View {
+        Text(movieModel.name ?? "")
+            .lineLimit(1)
+            .padding(.bottom)
     }
 }
+
+//struct Favourites_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FavouritesView(viewModel: FavouritesViewModel())
+//            .environment(\.colorScheme, .dark)
+//    }
+//}
 
 
