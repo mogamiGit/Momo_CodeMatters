@@ -9,8 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var viewModelSession: LoginViewModel
+    
     var body: some View {
-        HomeView()
+        
+        if self.viewModelSession.userLog != nil {
+            HomeView()
+        } else {
+            LoginView(authType: .register)
+        }
     }
 }
 

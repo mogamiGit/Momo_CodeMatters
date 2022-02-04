@@ -15,19 +15,19 @@ struct HomeView: View {
     
     var body: some View {
         TabView {
-            GenresCoordinator.navigation()
-                .tabItem {
-                    VStack{
-                        Image(systemName: "hands.sparkles")
-                        Text("Genres")
-                    }
-                }
-            
             MoviesCoordinator.navigation()
                 .tabItem {
                     VStack{
                         Image(systemName: "play.tv.fill")
                         Text("Movies")
+                    }
+                }
+            
+            GenresCoordinator.navigation()
+                .tabItem {
+                    VStack{
+                        Image(systemName: "hands.sparkles")
+                        Text("Genres")
                     }
                 }
             
@@ -43,9 +43,6 @@ struct HomeView: View {
         .environment(\.colorScheme, .dark)
     }
 }
-
-
-
 
 //struct Home_Previews: PreviewProvider {
 //    static var previews: some View {
