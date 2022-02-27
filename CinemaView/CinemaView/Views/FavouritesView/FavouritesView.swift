@@ -17,7 +17,7 @@ struct FavouritesView: View {
                 TitleSectionView(title: "My Favourites")
                 
                 List() {
-                    ForEach(self.viewModel.arrayMoviesFav ?? []) { movie in
+                    ForEach(self.viewModel.arrayMoviesFav) { movie in
                         movieFavCell(model: movie)
                     }
                 }

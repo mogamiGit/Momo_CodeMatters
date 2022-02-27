@@ -5,6 +5,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 
 // MARK: - Output -> Interactor
 protocol FavouritesInteractorOutputProtocol: BaseInteractorOutputProtocol {
@@ -23,22 +24,36 @@ final class FavouritesViewModel: BaseViewModel, ObservableObject {
     
     func fetchData() {
         
-        let userId = "m.galan"
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        dbFirebase.collection("favourites").document("\(userId)").collection("movies").addSnapshotListener { (querySnapshot, error) in guard let documents = querySnapshot?.documents else {
-            print("No documents")
-            return
-            }
+        // Read the documents at a specific path
+        dbFirebase.collection("favourites").document("\(userId)").collection("movies").getDocuments { snapshot, error in
             
-            documents.forEach { document in
-                self.arrayMoviesFav = documents.map { queryDocumentSnapshot -> NewMoviesModel in let data = queryDocumentSnapshot.data()
-                    let id = data["title"] as? Int ?? 0
-                    let backdropPath = data["backdropPath"] as? String ?? ""
-                    let posterPath = data["posterPath"] as? String ?? ""
-                    let name = data["name"] as? String ?? ""
+            // Check for errors
+            if error == nil {
+                // No errors
+                
+                if let snapshot = snapshot {
                     
-                    return NewMoviesModel(id: id, backdropPath: backdropPath, posterPath: posterPath, name: name)
+                    // Update the list property in the main thread
+                    DispatchQueue.main.async {
+                        
+                        // Get all the documents and create Todos
+                        self.arrayMoviesFav = snapshot.documents.map { queryDocumentSnapshot -> NewMoviesModel in let data = queryDocumentSnapshot.data()
+                            let id = data["title"] as? Int ?? 0
+                            let backdropPath = data["backdropPath"] as? String ?? ""
+                            let posterPath = data["posterPath"] as? String ?? ""
+                            let name = data["name"] as? String ?? ""
+                            
+                            return NewMoviesModel(id: id, backdropPath: backdropPath, posterPath: posterPath, name: name)
+                        }
+                    }
+                    
+                    
                 }
+            }
+            else {
+                // Handle the error
             }
         }
         

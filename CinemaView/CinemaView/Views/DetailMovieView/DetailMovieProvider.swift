@@ -6,6 +6,7 @@
 import Foundation
 import Combine
 import FirebaseFirestore
+import FirebaseAuth
 
 // MARK: - Input Provider
 protocol DetailMovieProviderInputProtocol: BaseProviderInputProtocol {
@@ -83,7 +84,7 @@ extension DetailMovieProvider: DetailMovieProviderInputProtocol {
     
     func saveDataInFirebaseDBProvider(data: DetailMovieModel) {
         
-        let userId = "m.galan"
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         let movieId = "\(movieObject?.id ?? 0)"
         
         let movieDetails : [String: Any] = [

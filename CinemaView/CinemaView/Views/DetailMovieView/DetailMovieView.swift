@@ -157,6 +157,7 @@ struct DetailMovieView: View {
             .foregroundColor(.red)
         }
     }
+    
 }
 
 struct MovieDetailImage: View {
