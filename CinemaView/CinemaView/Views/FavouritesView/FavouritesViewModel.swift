@@ -14,7 +14,7 @@ protocol FavouritesInteractorOutputProtocol: BaseInteractorOutputProtocol {
 
 final class FavouritesViewModel: BaseViewModel, ObservableObject {
     
-    @Published var arrayMoviesFav : [NewMoviesModel] = []
+    @Published var arrayMoviesFav = [NewMoviesModel]()
     private var dbFirebase = Firestore.firestore()
     
     // MARK: VIP Dependencies
@@ -39,13 +39,11 @@ final class FavouritesViewModel: BaseViewModel, ObservableObject {
                     DispatchQueue.main.async {
                         
                         // Get all the documents and create Todos
-                        self.arrayMoviesFav = snapshot.documents.map { queryDocumentSnapshot -> NewMoviesModel in let data = queryDocumentSnapshot.data()
-                            let id = data["title"] as? Int ?? 0
-                            let backdropPath = data["backdropPath"] as? String ?? ""
-                            let posterPath = data["posterPath"] as? String ?? ""
-                            let name = data["name"] as? String ?? ""
-                            
-                            return NewMoviesModel(id: id, backdropPath: backdropPath, posterPath: posterPath, name: name)
+                        self.arrayMoviesFav = snapshot.documents.map { d in
+                            return NewMoviesModel(id: d["id"] as? Int ?? 0,
+                                                  backdropPath: d["backdropPath"] as? String ?? "",
+                                                  posterPath: d["posterPath"] as? String ?? "",
+                                                  name: d["name"] as? String ?? "")
                         }
                     }
                     
